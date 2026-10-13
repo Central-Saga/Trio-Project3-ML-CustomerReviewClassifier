@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Review Buddy</string>
+    <string name="app_title">Review Buddy</string>
+    <string name="app_subtitle">AI Customer Review Classifier</string>
+    <string name="app_description">Understand customer sentiment easily. Enter a review and let AI analyze it.</string>
+
+    <string name="home_greeting">Welcome to</string>
+    <string name="home_title">Review Buddy</string>
+    <string name="latest_analysis">Latest Analysis</string>
+    <string name="offline_mode_short">OFFLINE</string>
+    <string name="latest_empty_title">No results yet</string>
+    <string name="latest_empty_subtitle">Your first analysis will appear here</string>
+    <string name="latest_empty_action">Start your first review analysis</string>
+    <string name="latest_confidence_format">Confidence %1$.1f%%</string>
+    <string name="open_latest_analysis">Open latest analysis</string>
+    <string name="weekly_summary">Analysis Summary</string>
+    <string name="this_week">This Week</string>
+    <string name="stat_total">Total Analyses</string>
+    <string name="quick_access">Quick Access</string>
+    <string name="quick_new_analysis">New Analysis</string>
+    <string name="quick_language">Language</string>
+    <string name="how_it_works">How It Works</string>
+    <string name="how_it_works_message">Enter a customer review and tap Analyze. The text is converted into numeric tokens and processed by the IndoBERT model on this device. The sentiment and confidence are shown, then saved locally so you can revisit the result.</string>
+
+    <string name="offline_mode">OFFLINE MODE</string>
+    <string name="language_toggle">ID / EN</string>
+    <string name="input_label">Customer review</string>
+    <string name="input_type">TEXT INPUT</string>
+    <string name="input_hint">Example: The product is great and delivery was fast...</string>
+    <string name="input_helper">Your review is processed directly on this device.</string>
+    <string name="review_empty_error">Review text cannot be empty.</string>
+
+    <string name="analysis_screen_title">Review Analysis</string>
+    <string name="analysis_screen_subtitle">Discover the sentiment behind every review</string>
+    <string name="analysis_input_title">Enter a review</string>
+    <string name="analysis_input_subtitle">Write the review you want to classify.</string>
+    <string name="analyze_button">Analyze</string>
+    <string name="processing_button">Processing…</string>
+    <string name="processing_title">Analyzing</string>
+    <string name="processing_message">The model is processing this review offline.</string>
+
+    <string name="result_title">ANALYSIS RESULT</string>
+    <string name="sentiment_placeholder">Awaiting analysis</string>
+    <string name="confidence_placeholder">Confidence will appear here</string>
+    <string name="confidence_format">Confidence: %1$.2f%%</string>
+    <string name="result_footnote">Confidence does not guarantee that a prediction is always correct.</string>
+    <string name="offline_explanation">Predictions run offline on your device. Review text does not need to be sent to a server.</string>
+    <string name="sentiment_positive">Positive</string>
+    <string name="sentiment_negative">Negative</string>
+
+    <string name="footer_model">Powered by IndoBERT • ONNX Runtime</string>
+    <string name="footer_offline">ON-DEVICE AI • NO INTERNET REQUIRED</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_analysis">Analyze</string>
+    <string name="nav_history">History</string>
+    <string name="nav_settings">Settings</string>
+
+    <string name="history_title">Analysis History</string>
+    <string name="history_clear">CLEAR</string>
+    <string name="history_clear_all">Clear all</string>
+    <string name="history_view_all">View all history →</string>
+    <string name="history_empty">No history yet. Your analysis results will be saved here.</string>
+    <string name="history_count_format">%1$d analyses saved</string>
+    <string name="history_count_initial">History is stored on this device</string>
+    <string name="history_latest_first">Newest analyses appear first</string>
+    <string name="history_date_pattern">dd MMM yyyy, HH:mm</string>
+    <string name="history_confidence_format">%1$.2f%%</string>
+    <string name="history_detail_title">Analysis details</string>
+    <string name="history_use_review">Reuse Review Text</string>
+    <string name="history_footer">History is stored locally on your device.</string>
+    <string name="clear_history_title">Clear all history?</string>
+    <string name="clear_history_message">All analysis history will be removed from this device.</string>
+    <string name="delete_history_item_title">Delete this result?</string>
+    <string name="delete_history_item_message">This result will be removed from the history on this device.</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="delete_button">Delete</string>
+    <string name="back_button">Back</string>
+    <string name="share_result">Share result</string>
+    <string name="detail_title">Result Details</string>
+    <string name="detail_sentiment_label">Sentiment</string>
+    <string name="detail_confidence_label">Confidence</string>
+    <string name="detail_date_label">Analysis date</string>
+    <string name="detail_review_label">Review text</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">Personalize your Review Buddy experience</string>
+    <string name="language_title">Interface language</string>
+    <string name="language_subtitle">Choose the language that suits you</string>
+    <string name="language_indonesian">Bahasa Indonesia</string>
+    <string name="language_english">English</string>
+    <string name="language_model_note_title">About model language</string>
+    <string name="language_model_note">Changing the interface language only changes the app menus and descriptions. It does not change the language capabilities of the classification model.</string>
+    <string name="about_title">About Review Buddy</string>
+    <string name="about_description">Review Buddy classifies review sentiment as positive or negative. The model runs locally using IndoBERT and ONNX Runtime.</string>
+
+    <string name="error_label">ERROR</string>
+    <string name="tokenizer_failed">Failed to load tokenizer.</string>
+    <string name="prediction_failed">Failed to run the model.</string>
+</resources>

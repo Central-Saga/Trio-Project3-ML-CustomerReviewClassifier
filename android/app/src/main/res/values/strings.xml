@@ -1,3 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Customer Review Classifier</string>
+    <string name="app_name">Review Buddy</string>
+    <string name="app_title">Review Buddy</string>
+    <string name="app_subtitle">AI Customer Review Classifier</string>
+    <string name="app_description">Pahami sentimen pelanggan dengan mudah. Masukkan review dan biarkan AI menganalisisnya.</string>
+
+    <string name="home_greeting">Selamat datang di</string>
+    <string name="home_title">Review Buddy</string>
+    <string name="latest_analysis">Analisis Terakhir</string>
+    <string name="offline_mode_short">OFFLINE</string>
+    <string name="latest_empty_title">Belum ada hasil</string>
+    <string name="latest_empty_subtitle">Analisis pertamamu akan muncul di sini</string>
+    <string name="latest_empty_action">Mulai analisis ulasan pertamamu</string>
+    <string name="latest_confidence_format">Confidence %1$.1f%%</string>
+    <string name="open_latest_analysis">Buka analisis terakhir</string>
+    <string name="weekly_summary">Ringkasan Analisis</string>
+    <string name="this_week">Minggu Ini</string>
+    <string name="stat_total">Total Analisis</string>
+    <string name="quick_access">Akses Cepat</string>
+    <string name="quick_new_analysis">Analisis Baru</string>
+    <string name="quick_language">Bahasa</string>
+    <string name="how_it_works">Cara Kerja</string>
+    <string name="how_it_works_message">Masukkan ulasan pelanggan, lalu tekan Analisis. Teks diubah menjadi token numerik dan diproses oleh model IndoBERT di perangkat ini. Hasil sentimen dan confidence ditampilkan, lalu hasilnya disimpan secara lokal untuk dilihat kembali.</string>
+
+    <string name="offline_mode">MODE OFFLINE</string>
+    <string name="language_toggle">ID / EN</string>
+    <string name="input_label">Ulasan pelanggan</string>
+    <string name="input_type">INPUT TEKS</string>
+    <string name="input_hint">Contoh: Produknya bagus dan pengiriman cepat...</string>
+    <string name="input_helper">Teks ulasan diproses langsung di perangkatmu.</string>
+    <string name="review_empty_error">Ulasan tidak boleh kosong.</string>
+
+    <string name="analysis_screen_title">Analisis Ulasan</string>
+    <string name="analysis_screen_subtitle">Kenali sentimen di balik setiap ulasan</string>
+    <string name="analysis_input_title">Masukkan teks ulasan</string>
+    <string name="analysis_input_subtitle">Tuliskan ulasan yang ingin kamu klasifikasikan.</string>
+    <string name="analyze_button">Analisis</string>
+    <string name="processing_button">Memproses…</string>
+    <string name="processing_title">Sedang menganalisis</string>
+    <string name="processing_message">Model sedang memproses ulasan secara offline.</string>
+
+    <string name="result_title">HASIL ANALISIS</string>
+    <string name="sentiment_placeholder">Menunggu analisis</string>
+    <string name="confidence_placeholder">Confidence akan tampil di sini</string>
+    <string name="confidence_format">Confidence: %1$.2f%%</string>
+    <string name="result_footnote">Confidence bukan jaminan bahwa prediksi selalu benar.</string>
+    <string name="offline_explanation">Prediksi berjalan offline di perangkat Anda. Teks ulasan tidak perlu dikirim ke server.</string>
+    <string name="sentiment_positive">Positif</string>
+    <string name="sentiment_negative">Negatif</string>
+
+    <string name="footer_model">Didukung IndoBERT • ONNX Runtime</string>
+    <string name="footer_offline">AI DI PERANGKAT • TANPA INTERNET</string>
+
+    <string name="nav_home">Beranda</string>
+    <string name="nav_analysis">Analisis</string>
+    <string name="nav_history">Riwayat</string>
+    <string name="nav_settings">Pengaturan</string>
+
+    <string name="history_title">Riwayat Analisis</string>
+    <string name="history_clear">HAPUS</string>
+    <string name="history_clear_all">Hapus semua</string>
+    <string name="history_view_all">Lihat semua riwayat →</string>
+    <string name="history_empty">Belum ada riwayat. Hasil analisis akan tersimpan di sini.</string>
+    <string name="history_count_format">%1$d analisis tersimpan</string>
+    <string name="history_count_initial">Riwayat tersimpan di perangkat ini</string>
+    <string name="history_latest_first">Analisis terbaru ditampilkan lebih dulu</string>
+    <string name="history_date_pattern">dd MMM yyyy, HH:mm</string>
+    <string name="history_confidence_format">%1$.2f%%</string>
+    <string name="history_detail_title">Detail analisis</string>
+    <string name="history_use_review">Gunakan Kembali Teks</string>
+    <string name="history_footer">Riwayat disimpan secara lokal di perangkatmu.</string>
+    <string name="clear_history_title">Hapus semua riwayat?</string>
+    <string name="clear_history_message">Semua riwayat analisis akan dihapus dari perangkat ini.</string>
+    <string name="delete_history_item_title">Hapus hasil ini?</string>
+    <string name="delete_history_item_message">Hasil analisis ini akan dihapus dari riwayat di perangkat.</string>
+    <string name="cancel_button">Batal</string>
+    <string name="delete_button">Hapus</string>
+    <string name="back_button">Kembali</string>
+    <string name="share_result">Bagikan hasil</string>
+    <string name="detail_title">Detail Hasil</string>
+    <string name="detail_sentiment_label">Sentimen</string>
+    <string name="detail_confidence_label">Confidence</string>
+    <string name="detail_date_label">Tanggal analisis</string>
+    <string name="detail_review_label">Teks ulasan</string>
+
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_subtitle">Sesuaikan pengalaman Review Buddy</string>
+    <string name="language_title">Bahasa antarmuka</string>
+    <string name="language_subtitle">Pilih bahasa yang nyaman untukmu</string>
+    <string name="language_indonesian">Bahasa Indonesia</string>
+    <string name="language_english">English</string>
+    <string name="language_model_note_title">Tentang bahasa model</string>
+    <string name="language_model_note">Mengubah bahasa antarmuka hanya mengubah teks menu dan informasi aplikasi. Pilihan ini tidak mengubah kemampuan bahasa model klasifikasi.</string>
+    <string name="about_title">Tentang Review Buddy</string>
+    <string name="about_description">Review Buddy mengklasifikasikan sentimen ulasan menjadi positif atau negatif. Model dijalankan secara lokal menggunakan IndoBERT dan ONNX Runtime.</string>
+
+    <string name="error_label">ERROR</string>
+    <string name="tokenizer_failed">Tokenizer gagal dimuat.</string>
+    <string name="prediction_failed">Gagal menjalankan model.</string>
 </resources>

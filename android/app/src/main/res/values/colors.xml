@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Review Buddy clean light palette -->
+    <color name="background_soft">#F2F4F8</color>
+    <color name="navy">#0B1F3A</color>
+    <color name="navy_raised">#152C4B</color>
+    <color name="card_white">#FFFFFF</color>
+    <color name="stats_blue">#DCE6F8</color>
+    <color name="icon_muted">#7E8BA0</color>
+    <color name="text_primary">#17263D</color>
+    <color name="text_secondary">#64738A</color>
+    <color name="text_muted">#8793A5</color>
+    <color name="text_hint">#9BA7B7</color>
+    <color name="divider_color">#E7ECF3</color>
+    <color name="sentiment_positive">#22845D</color>
+    <color name="sentiment_positive_soft">#E1F4EA</color>
+    <color name="sentiment_negative">#C94F61</color>
+    <color name="sentiment_negative_soft">#FBE9EC</color>
+    <color name="input_border">#DEE5EF</color>
+    <color name="ripple_navy">#220B1F3A</color>
 
-    <!-- Background -->
-    <color name="background_navy">#10151F</color>
-    <color name="surface_primary">#192430</color>
-    <color name="surface_input">#111C26</color>
-    <color name="surface_result">#132D30</color>
-    <color name="surface_chip">#153238</color>
-
-    <!-- Accent -->
-    <color name="accent_teal">#65F4E5</color>
-    <color name="border_teal">#2B7778</color>
-    <color name="border_input">#344B57</color>
-
-    <!-- Text -->
-    <color name="text_primary">#F2FFFF</color>
-    <color name="text_secondary">#B5C8D0</color>
-    <color name="text_muted">#8BA0AE</color>
-    <color name="text_hint">#718794</color>
-
-    <!-- Divider -->
-    <color name="divider_color">#294047</color>
-    <color name="ripple_teal">#5565F4E5</color>
-
+    <!-- Legacy names retained for the existing HistoryActivity layout -->
+    <color name="background_navy">#0B1F3A</color>
+    <color name="surface_primary">#FFFFFF</color>
+    <color name="surface_input">#F8FAFD</color>
+    <color name="surface_result">#FFFFFF</color>
+    <color name="surface_chip">#DCE6F8</color>
+    <color name="accent_teal">#0B1F3A</color>
+    <color name="border_teal">#CCD7E6</color>
+    <color name="border_input">#DEE5EF</color>
+    <color name="ripple_teal">#220B1F3A</color>
 </resources>
