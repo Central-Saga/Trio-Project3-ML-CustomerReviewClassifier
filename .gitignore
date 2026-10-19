@@ -14,3 +14,12 @@
 .cxx
 local.properties
 .idea/
+# Android and Gradle generated files
+**/.gradle/
+**/.kotlin/
+**/build/
+**/local.properties
+**/*.apk
+**/*.aab
+**/.externalNativeBuild/
+**/.cxx/

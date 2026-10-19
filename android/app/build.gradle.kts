@@ -47,9 +47,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     // ONNX Runtime untuk inference model IndoBERT secara offline
-    implementation(
-        "com.microsoft.onnxruntime:onnxruntime-android:1.30.0"
-    )
+    implementation(libs.onnxruntime.android)
 
     testImplementation(libs.junit)
 
