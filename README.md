@@ -2,14 +2,15 @@
 
 An Android application for classifying Indonesian customer reviews into positive and negative sentiment using IndoBERT and ONNX Runtime.
 
-The application performs model inference locally on the Android device after the application and model have been installed.
+The application performs model inference locally on the Android device after the application and model have been installed. No FastAPI prediction API is required for sentiment inference.
 
 ## Features
 
 - Classifies customer reviews into positive or negative sentiment.
-- Displays the predicted sentiment and confidence score supported by the application UI.
+- Displays the predicted sentiment and confidence score.
 - Uses an IndoBERT model exported to ONNX and quantized to INT8.
-- Runs sentiment inference locally without requiring a FastAPI prediction API.
+- Runs sentiment inference locally on the Android device.
+- Displays prediction results through the application's analysis feature.
 
 ## Application Screenshots
 
@@ -39,14 +40,19 @@ CustomerReviewClassifier/
 ¦   ¦   +-- src/main/
 ¦   ¦       +-- assets/
 ¦   ¦       ¦   +-- model.onnx
-¦   ¦       ¦   +-- vocab.txt
+¦   ¦       ¦   +-- config.json
+¦   ¦       ¦   +-- deployment_info.json
+¦   ¦       ¦   +-- labels.json
 ¦   ¦       ¦   +-- tokenizer.json
-¦   ¦       ¦   +-- ...
+¦   ¦       ¦   +-- tokenizer_config.json
+¦   ¦       ¦   +-- special_tokens_map.json
+¦   ¦       ¦   +-- vocab.txt
 ¦   ¦       +-- java/com/trio/customerreview/
 ¦   ¦           +-- MainActivity.kt
 ¦   ¦           +-- OnnxPredictor.kt
 ¦   ¦           +-- TextTokenizer.kt
 ¦   +-- gradle/
+¦   ¦   +-- libs.versions.toml
 ¦   +-- build.gradle.kts
 ¦   +-- settings.gradle.kts
 +-- docs/
@@ -78,7 +84,7 @@ The training notebook documents the following workflow:
 
 The training workflow uses `labeledReview.datasetFix.json`, a labeled customer review dataset.
 
-The EDA notebook reports 11,606 rows. See the training notebook for dataset preparation and experiment details.
+The EDA notebook reports 11,606 rows. For details about dataset preparation, preprocessing, training, and evaluation, see the ML training notebook and [`ml_training/README.md`](ml_training/README.md).
 
 ### Sentiment Labels
 
@@ -89,29 +95,52 @@ The EDA notebook reports 11,606 rows. See the training notebook for dataset prep
 
 ### ONNX INT8 Evaluation Results
 
-The training notebook reports the following evaluation results for the ONNX INT8 model:
+The deployed model's `deployment_info.json` records the following evaluation metrics:
 
 | Metric | Result |
 | --- | ---: |
 | Accuracy | 93.36% |
-| Precision | 93.38% |
-| Recall | 93.36% |
-| F1-score | 93.36% |
+| Precision | 94.20% |
+| Recall | 92.41% |
+| F1-score | 93.30% |
 
-The reported evaluation used 1,160 test samples: 580 negative reviews and 580 positive reviews.
+The evaluation used 1,160 test samples: 580 negative reviews and 580 positive reviews.
 
-These metrics describe evaluation on the test dataset. They do not guarantee that every individual prediction made by the application will be correct.
+These metrics describe the model's reported performance on the test dataset. They do not guarantee that every individual prediction made by the application will be correct.
 
-For training and experiment details, see [ML Training Documentation](ml_training/README.md).
+For further experiment details, see [`ml_training/notebooks/customer_review_classification_ml_pipeline.ipynb`](ml_training/notebooks/customer_review_classification_ml_pipeline.ipynb).
 
-## Android Application
+### Deployed Model Details
+
+The following information is recorded in `android/app/src/main/assets/deployment_info.json` and the Gradle version catalog.
+
+| Property | Value |
+| --- | --- |
+| Model name | IndoBERT Customer Review Sentiment |
+| Base model | `indobenchmark/indobert-base-p1` |
+| Model format | ONNX |
+| Quantization | Dynamic INT8 Quantization |
+| Model file | `model.onnx` |
+| Model size | 119.83 MiB (125,654,812 bytes) |
+| Maximum sequence length | 128 tokens |
+| Number of labels | 2 |
+| ONNX Runtime Android | `1.30.0` |
+
+Label mapping:
+
+- `0`: NEGATIF
+- `1`: POSITIF
+
+The model and tokenizer files are bundled in the Android application's assets. `TextTokenizer.kt` prepares review text, and `OnnxPredictor.kt` runs inference through an ONNX Runtime session.
+
+The inference result is used by the application's analysis interface to display sentiment and confidence.## Android Application
 
 ### Requirements
 
 - Android Studio
 - Android SDK compatible with the project configuration
 - Git
-- Git LFS for downloading large model files
+- Git LFS for downloading the model files
 
 ### Clone the Repository
 
@@ -122,10 +151,12 @@ git lfs install
 git lfs pull
 ```
 
+Git LFS must be installed to retrieve the large model files tracked by Git LFS. Make sure the model files are downloaded before running the application.
+
 ### Run Using Android Studio
 
 1. Open Android Studio.
-2. Open the `android/` directory.
+2. Select **Open** and choose the repository's `android/` directory.
 3. Wait for Gradle Sync to finish.
 4. Start an Android emulator or connect a compatible Android device.
 5. Select the `app` run configuration.
@@ -173,29 +204,32 @@ ONNX INT8 Model
 Positive / Negative Sentiment
       |
       v
-Prediction Result and Confidence, if displayed
+Prediction Result and Confidence
+      |
+      v
+Analysis UI and Prediction History
 ```
 
-The tokenizer prepares the text input, and `OnnxPredictor.kt` uses ONNX Runtime to run model inference.
+The application prepares the review text using the tokenizer and runs inference with ONNX Runtime. The resulting sentiment and confidence are used by the analysis interface.
 
-The Android application does not require FastAPI for sentiment prediction.
+Sentiment prediction runs locally on the Android device and does not require FastAPI.
 
 ## Git LFS
 
 The ONNX model is stored using Git LFS because of its file size.
 
-After cloning the repository, install Git LFS and download the tracked model files:
+After cloning the repository, run:
 
 ```bash
 git lfs install
 git lfs pull
 ```
 
-Confirm that the model files are available before running the application.
+Verify that `android/app/src/main/assets/model.onnx` contains the actual model file rather than a Git LFS pointer before building or running the application.
 
 ## Demo Scenario
 
-See [Demo Scenario](docs/demo-scenario.md) for the demonstration flow, example reviews, machine learning overview, and demo checklist.
+See [`docs/demo-scenario.md`](docs/demo-scenario.md) for the demonstration flow, example reviews, machine learning overview, and demo checklist.
 
 ## Repository
 
