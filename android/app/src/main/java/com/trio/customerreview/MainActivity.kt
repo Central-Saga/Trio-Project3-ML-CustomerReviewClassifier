@@ -107,7 +107,8 @@ class MainActivity : AppCompatActivity() {
             tokenizerReady = false
             btnPredict.isEnabled = false
             tvSentiment.text = getString(R.string.error_label)
-            tvConfidence.text = e.message ?: getString(R.string.tokenizer_failed)
+            tvConfidence.text = getString(R.string.tokenizer_failed)
+            android.util.Log.e(TAG, "Failed to initialize tokenizer", e)
         }
 
         showScreen(savedInstanceState?.getString(STATE_SCREEN) ?: SCREEN_HOME)
@@ -369,6 +370,7 @@ class MainActivity : AppCompatActivity() {
         if (screen == SCREEN_HISTORY) renderHistory()
         if (screen == SCREEN_SETTINGS) updateLanguageButtons()
     }
+
     private fun updateNavigationSelection(screen: String) {
         updateNavItem(navHome, navHomeIcon, navHomeLabel, screen == SCREEN_HOME)
         updateNavItem(navAnalysis, navAnalysisIcon, navAnalysisLabel, screen == SCREEN_ANALYSIS)
@@ -410,13 +412,32 @@ class MainActivity : AppCompatActivity() {
         label.setTextColor(Color.WHITE)
     }
 
+    /**
+     * Validate input before checking model readiness so an empty review always gets feedback.
+     * All prediction work runs on the background executor; UI state is updated on the main thread.
+     */
     private fun predictReview() {
-        if (!tokenizerReady) return
+        val review = etReview.text?.toString()?.trim().orEmpty()
 
-        val review = etReview.text.toString().trim()
-        if (review.isEmpty()) {
+        if (review.isBlank()) {
             etReview.error = getString(R.string.review_empty_error)
             etReview.requestFocus()
+            android.widget.Toast.makeText(
+                this,
+                getString(R.string.review_empty_error),
+                android.widget.Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        // Clear the previous validation hint once the user has supplied text.
+        etReview.error = null
+
+        if (!tokenizerReady) {
+            showPredictionFailure(
+                message = getString(R.string.tokenizer_failed),
+                error = IllegalStateException("Tokenizer is not ready")
+            )
             return
         }
 
@@ -441,6 +462,8 @@ class MainActivity : AppCompatActivity() {
                 )
 
                 runOnUiThread {
+                    if (isFinishing || isDestroyed) return@runOnUiThread
+
                     val negative = isNegativeLabel(result.label)
                     tvSentiment.text = localizedSentiment(result.label)
                     val resultColor = getColor(
@@ -463,22 +486,35 @@ class MainActivity : AppCompatActivity() {
                             timestamp = System.currentTimeMillis()
                         )
                     )
+
                     btnPredict.isEnabled = true
                     btnPredict.text = getString(R.string.analyze_button)
                     renderHomeSummary()
                     renderHistory()
                 }
             } catch (e: Exception) {
+                android.util.Log.e(TAG, "Prediction failed", e)
                 runOnUiThread {
-                    tvSentiment.text = getString(R.string.error_label)
-                    tvSentiment.setTextColor(getColor(R.color.sentiment_negative))
-                    tvConfidence.text = e.message ?: getString(R.string.prediction_failed)
-                    pbConfidence.visibility = View.GONE
-                    btnPredict.isEnabled = true
-                    btnPredict.text = getString(R.string.analyze_button)
+                    if (isFinishing || isDestroyed) return@runOnUiThread
+                    showPredictionFailure(
+                        message = getString(R.string.prediction_failed),
+                        error = e
+                    )
                 }
             }
         }
+    }
+
+    /** Show a user-friendly error and always restore the prediction button/loading state. */
+    private fun showPredictionFailure(message: String, error: Throwable? = null) {
+        error?.let { android.util.Log.e(TAG, message, it) }
+        tvSentiment.text = getString(R.string.error_label)
+        tvSentiment.setTextColor(getColor(R.color.sentiment_negative))
+        tvConfidence.text = message
+        pbConfidence.visibility = View.GONE
+        btnPredict.isEnabled = true
+        btnPredict.text = getString(R.string.analyze_button)
+        android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_LONG).show()
     }
 
     private fun isNegativeLabel(label: String): Boolean {
@@ -741,6 +777,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val TAG = "MainActivity"
         private const val SCREEN_HOME = "home"
         private const val SCREEN_ANALYSIS = "analysis"
         private const val SCREEN_HISTORY = "history"
