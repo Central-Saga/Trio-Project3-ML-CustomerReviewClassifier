@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     private var hasShownInitialScreen = false
 
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
+    private var loadingDialog: AlertDialog? = null
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(HistoryStore.localizedContext(newBase))
@@ -447,7 +448,10 @@ class MainActivity : AppCompatActivity() {
         tvSentiment.setTextColor(getColor(R.color.text_primary))
         tvConfidence.text = getString(R.string.processing_message)
         pbConfidence.progress = 0
-        pbConfidence.visibility = View.VISIBLE
+        // pbConfidence is the determinate confidence meter, not the loading indicator.
+        // Keep it hidden while the model is running and display a dedicated spinner dialog.
+        pbConfidence.visibility = View.GONE
+        showLoadingDialog()
 
         executor.execute {
             try {
@@ -463,6 +467,7 @@ class MainActivity : AppCompatActivity() {
 
                 runOnUiThread {
                     if (isFinishing || isDestroyed) return@runOnUiThread
+                    dismissLoadingDialog()
 
                     val negative = isNegativeLabel(result.label)
                     tvSentiment.text = localizedSentiment(result.label)
@@ -505,8 +510,55 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Show a dedicated, indeterminate spinner while ONNX initialization and inference run.
+     * This is intentionally separate from pbConfidence, which represents the final confidence.
+     */
+    private fun showLoadingDialog() {
+        dismissLoadingDialog()
+
+        val content = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(24), dp(18), dp(24), dp(18))
+        }
+
+        val spinner = ProgressBar(this).apply {
+            isIndeterminate = true
+            contentDescription = getString(R.string.processing_title)
+        }
+        content.addView(
+            spinner,
+            LinearLayout.LayoutParams(dp(32), dp(32))
+        )
+
+        val message = TextView(this).apply {
+            text = getString(R.string.processing_message)
+            textSize = 14f
+            setTextColor(getColor(R.color.text_primary))
+            setPadding(dp(16), 0, 0, 0)
+        }
+        content.addView(
+            message,
+            LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        )
+
+        loadingDialog = AlertDialog.Builder(this)
+            .setTitle(R.string.processing_title)
+            .setView(content)
+            .setCancelable(false)
+            .create()
+            .also { it.show() }
+    }
+
+    private fun dismissLoadingDialog() {
+        loadingDialog?.dismiss()
+        loadingDialog = null
+    }
+
     /** Show a user-friendly error and always restore the prediction button/loading state. */
     private fun showPredictionFailure(message: String, error: Throwable? = null) {
+        dismissLoadingDialog()
         error?.let { android.util.Log.e(TAG, message, it) }
         tvSentiment.text = getString(R.string.error_label)
         tvSentiment.setTextColor(getColor(R.color.sentiment_negative))
@@ -770,6 +822,7 @@ class MainActivity : AppCompatActivity() {
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     override fun onDestroy() {
+        dismissLoadingDialog()
         executor.shutdownNow()
         onnxPredictor?.close()
         onnxPredictor = null
